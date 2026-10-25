@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIBOOD OS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- BOOT -->
+    <div id="bootScreen">
+        <div class="boot-box">
+            <div class="boot-logo">SIBOOD OS</div>
+            <div class="boot-version">CYBER EDITION v3.0</div>
+
+            <div class="boot-line">[ OK ] Initializing kernel...</div>
+            <div class="boot-line">[ OK ] Loading filesystem...</div>
+            <div class="boot-line">[ OK ] Starting security services...</div>
+            <div class="boot-line">[ OK ] Loading user profile...</div>
+            <div class="boot-line">[ OK ] Starting desktop...</div>
+
+            <div class="boot-loading">
+                <div id="bootProgress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="loginScreen" class="hidden">
+        <div class="login-box">
+            <div class="login-logo">SIBOOD</div>
+            <div class="login-subtitle">Cybersecurity Portfolio OS</div>
+
+            <div class="avatar">S</div>
+
+            <input
+                type="password"
+                id="passwordInput"
+                placeholder="System password"
+            >
+
+            <button onclick="login()">LOGIN</button>
+
+            <div id="loginMessage"></div>
+
+            <div class="login-hint">
+                Authorized user: SIBOOD
+            </div>
+        </div>
+    </div>
+
+    <!-- OS -->
+    <div id="os" class="hidden">
+
+        <!-- TOP BAR -->
+        <div class="topbar">
+
+            <div class="top-left">
+                <span class="os-name">◉ SIBOOD OS</span>
+                <span id="topStatus">● ONLINE</span>
+            </div>
+
+            <div class="top-center">
+                <span id="clock"></span>
+            </div>
+
+            <div class="top-right">
+                <span>RAM <b id="ramValue">42%</b></span>
+                <span>NET ●</span>
+                <button onclick="shutdown()">⏻</button>
+            </div>
+
+        </div>
+
+        <!-- DESKTOP -->
+        <main id="desktop">
+
+            <div class="desktop-grid">
+
+                <div class="desktop-icon" ondblclick="openWindow('terminalWindow')">
+                    <div class="icon">▣</div>
+                    <span>Terminal</span>
+                </div>
+
+                <div class="desktop-icon" ondblclick="openWindow('filesWindow')">
+                    <div class="icon">📁</div>
+                    <span>Files</span>
+                </div>
+
+                <div class="desktop-icon" ondblclick="openWindow('profileWindow')">
+                    <div class="icon">👤</div>
+                    <span>Profile</span>
+                </div>
+
+                <div class="desktop-icon" ondblclick="openWindow('skillsWindow')">
+                    <div class="icon">⚡</div>
+                    <span>Skills</span>
+                </div>
+
+                <div class="desktop-icon" ondblclick="openWindow('projectsWindow')">
+                    <div class="icon">🚀</div>
+                    <span>Projects</span>
+                </div>
+
+                <div class="desktop-icon" ondblclick="openWindow('cyberWindow')">
+                    <div class="icon">🛡</div>
+                    <span>Cyber Lab</span>
+                </div>
+
+                <div class="desktop-icon" ondblclick="openWindow('1337Window')">
+                    <div class="icon">42</div>
+                    <span>1337 Lab</span>
+                </div>
+
+                <div class="desktop-icon" ondblclick="openWindow('monitorWindow')">
+                    <div class="icon">📊</div>
+                    <span>Monitor</span>
+                </div>
+
+                <div class="desktop-icon" ondblclick="openWindow('settingsWindow')">
+                    <div class="icon">⚙</div>
+                    <span>Settings</span>
+                </div>
+
+            </div>
+
+            <!-- WINDOWS -->
+
+            <!-- TERMINAL -->
+            <section id="terminalWindow" class="window">
+                <div class="window-header">
+                    <span>Terminal</span>
+                    <div>
+                        <button onclick="minimizeWindow('terminalWindow')">—</button>
+                        <button onclick="maximizeWindow('terminalWindow')">□</button>
+                        <button onclick="closeWindow('terminalWindow')">×</button>
+                    </div>
+                </div>
+
+                <div id="terminalOutput" class="terminal-output">
+                    <div>Welcome to <b>SIBOOD OS</b>.</div>
+                    <div>Type <span class="green">help</span> to see available commands.</div>
+                    <br>
+                </div>
+
+                <div class="terminal-input-line">
+                    <span class="prompt">sibood@SIBOOD:~$</span>
+                    <input id="terminalInput" autocomplete="off">
+                </div>
+            </section>
+
+            <!-- FILE MANAGER -->
+            <section id="filesWindow" class="window large-window">
+
+                <div class="window-header">
+                    <span>📁 File Manager</span>
+                    <div>
+                        <button onclick="minimizeWindow('filesWindow')">—</button>
+                        <button onclick="maximizeWindow('filesWindow')">□</button>
+                        <button onclick="closeWindow('filesWindow')">×</button>
+                    </div>
+                </div>
+
+                <div class="file-toolbar">
+                    <button onclick="goBackFolder()">← Back</button>
+                    <button onclick="createFolder()">📁 New Folder</button>
+                    <button onclick="createFile()">📄 New File</button>
+                    <button onclick="renameSelected()">✏ Rename</button>
+                    <button onclick="copySelected()">📋 Copy</button>
+                    <button onclick="pasteItem()">📌 Paste</button>
+                    <button onclick="deleteSelectedFile()">🗑 Delete</button>
+                    <button onclick="refreshFiles()">↻ Refresh</button>
+                </div>
+
+                <div id="currentPath" class="current-path"></div>
+
+                <div id="fileGrid" class="file-grid"></div>
+
+            </section>
+
+            <!-- EDITOR -->
+            <section id="editorWindow" class="window editor-window">
+
+                <div class="window-header">
+                    <span id="editorTitle">Text Editor</span>
+
+                    <div>
+                        <button onclick="saveEditor()">💾</button>
+                        <button onclick="closeEditor()">×</button>
+                    </div>
+                </div>
+
+                <textarea id="editorArea"></textarea>
+
+                <div class="editor-footer">
+                    <span id="editorStatus">Ready</span>
+                    <button onclick="saveEditor()">SAVE</button>
+                    <button onclick="closeEditor()">CLOSE</button>
+                </div>
+
+            </section>
+
+            <!-- PROFILE -->
+            <section id="profileWindow" class="window content-window">
+
+                <div class="window-header">
+                    <span>👤 SIBOOD Profile</span>
+                    <button onclick="closeWindow('profileWindow')">×</button>
+                </div>
+
+                <div class="content">
+
+                    <div class="profile-hero">
+                        <div class="big-avatar">S</div>
+
+                        <div>
+                            <h1>SIBOOD</h1>
+                            <p>Developer • Cybersecurity Learner • C Programmer</p>
+                            <span class="badge">AVAILABLE FOR LEARNING</span>
+                        </div>
+                    </div>
+
+                    <div class="cards">
+
+                        <div class="card">
+                            <h3>🎯 Focus</h3>
+                            <p>C Programming</p>
+                            <p>Linux</p>
+                            <p>Cybersecurity</p>
+                            <p>CTF</p>
+                            <p>Web Development</p>
+                        </div>
+
+                        <div class="card">
+                            <h3>💻 Environment</h3>
+                            <p>VS Code</p>
+                            <p>GCC</p>
+                            <p>GDB</p>
+                            <p>Git</p>
+                            <p>MSYS2 / Linux</p>
+                        </div>
+
+                        <div class="card">
+                            <h3>🧠 Philosophy</h3>
+                            <p>Understand the logic.</p>
+                            <p>Build from scratch.</p>
+                            <p>Debug the problem.</p>
+                            <p>Learn from mistakes.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SKILLS -->
+            <section id="skillsWindow" class="window content-window">
+
+                <div class="window-header">
+                    <span>⚡ Skills</span>
+                    <button onclick="closeWindow('skillsWindow')">×</button>
+                </div>
+
+                <div class="content">
+
+                    <h2>Technical Skills</h2>
+
+                    <div class="skill">
+                        <div><span>C Programming</span><span>85%</span></div>
+                        <div class="progress"><i style="width:85%"></i></div>
+                    </div>
+
+                    <div class="skill">
+                        <div><span>Linux / Shell</span><span>80%</span></div>
+                        <div class="progress"><i style="width:80%"></i></div>
+                    </div>
+
+                    <div class="skill">
+                        <div><span>Cybersecurity</span><span>65%</span></div>
+                        <div class="progress"><i style="width:65%"></i></div>
+                    </div>
+
+                    <div class="skill">
+                        <div><span>HTML / CSS</span><span>80%</span></div>
+                        <div class="progress"><i style="width:80%"></i></div>
+                    </div>
+
+                    <div class="skill">
+                        <div><span>JavaScript</span><span>60%</span></div>
+                        <div class="progress"><i style="width:60%"></i></div>
+                    </div>
+
+                    <div class="skill">
+                        <div><span>Git / Debugging</span><span>70%</span></div>
+                        <div class="progress"><i style="width:70%"></i></div>
+                    </div>
+
+                    <h2>Core Concepts</h2>
+
+                    <div class="tags">
+                        <span>Pointers</span>
+                        <span>Arrays</span>
+                        <span>Strings</span>
+                        <span>malloc</span>
+                        <span>argc / argv</span>
+                        <span>Recursion</span>
+                        <span>Memory</span>
+                        <span>Permissions</span>
+                        <span>Processes</span>
+                        <span>Networking</span>
+                        <span>HTTP</span>
+                        <span>CTF</span>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- PROJECTS -->
+            <section id="projectsWindow" class="window content-window">
+
+                <div class="window-header">
+                    <span>🚀 Projects</span>
+                    <button onclick="closeWindow('projectsWindow')">×</button>
+                </div>
+
+                <div class="content">
+
+                    <div class="project-card">
+                        <div class="project-title">
+                            <span>🖥️ SIBOOD OS</span>
+                            <span class="badge">ACTIVE</span>
+                        </div>
+
+                        <p>
+                            Linux-inspired interactive portfolio operating system
+                            built with HTML, CSS and JavaScript.
+                        </p>
+
+                        <div class="tags">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                            <span>UI/UX</span>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-title">
+                            <span>🛡️ Cybersecurity Lab</span>
+                            <span class="badge">LEARNING</span>
+                        </div>
+
+                        <p>
+                            Educational environment for learning Linux,
+                            networking, CTF methodology and defensive security.
+                        </p>
+
+                        <div class="tags">
+                            <span>Linux</span>
+                            <span>Networking</span>
+                            <span>CTF</span>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-title">
+                            <span>💻 1337 C Journey</span>
+                            <span class="badge">COMPLETED</span>
+                        </div>
+
+                        <p>
+                            C programming journey covering Shell, pointers,
+                            arrays, strings, memory, functions and debugging.
+                        </p>
+
+                        <div class="tags">
+                            <span>C</span>
+                            <span>Shell</span>
+                            <span>Git</span>
+                            <span>Norminette</span>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-title">
+                            <span>🌐 Portfolio</span>
+                            <span class="badge">ACTIVE</span>
+                        </div>
+
+                        <p>
+                            Personal cybersecurity and developer portfolio
+                            presented as an interactive operating system.
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- CYBER LAB -->
+            <section id="cyberWindow" class="window content-window">
+
+                <div class="window-header">
+                    <span>🛡 Cybersecurity Lab</span>
+                    <button onclick="closeWindow('cyberWindow')">×</button>
+                </div>
+
+                <div class="content">
+
+                    <div class="security-status">
+                        <div class="security-icon">✓</div>
+                        <div>
+                            <h2>Security Learning Environment</h2>
+                            <p>Educational mode active</p>
+                        </div>
+                    </div>
+
+                    <h2>Knowledge Map</h2>
+
+                    <div class="cyber-grid">
+
+                        <div class="cyber-card">
+                            <h3>🐧 Linux</h3>
+                            <p>Terminal, permissions, processes, filesystem and shell.</p>
+                        </div>
+
+                        <div class="cyber-card">
+                            <h3>🌐 Networking</h3>
+                            <p>IP addresses, ports, TCP/IP, HTTP and HTTPS fundamentals.</p>
+                        </div>
+
+                        <div class="cyber-card">
+                            <h3>🚩 CTF</h3>
+                            <p>Enumeration, analysis, documentation and authorized labs.</p>
+                        </div>
+
+                        <div class="cyber-card">
+                            <h3>🔐 Security</h3>
+                            <p>CIA triad, authentication, permissions and defensive concepts.</p>
+                        </div>
+
+                        <div class="cyber-card">
+                            <h3>💾 Memory</h3>
+                            <p>Pointers, stack, heap, malloc and debugging concepts.</p>
+                        </div>
+
+                        <div class="cyber-card">
+                            <h3>🧪 Debugging</h3>
+                            <p>GDB, compiler warnings, Valgrind and systematic debugging.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="warning-box">
+                        ⚠ Practice cybersecurity only on systems and labs where you
+                        have explicit authorization.
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- 1337 -->
+            <section id="1337Window" class="window content-window">
+
+                <div class="window-header">
+                    <span>42 1337 Lab</span>
+                    <button onclick="closeWindow('1337Window')">×</button>
+                </div>
+
+                <div class="content">
+
+                    <div class="lab-header">
+                        <div class="lab-logo">42</div>
+                        <div>
+                            <h1>1337 / C Journey</h1>
+                            <p>Programming • Logic • Debugging</p>
+                        </div>
+                    </div>
+
+                    <h2>Shell</h2>
+
+                    <div class="timeline">
+                        <div>✓ Shell00</div>
+                        <div>✓ Shell01</div>
+                        <div>✓ Permissions</div>
+                        <div>✓ Files & Directories</div>
+                        <div>✓ Git Basics</div>
+                    </div>
+
+                    <h2>C Programming</h2>
+
+                    <div class="tags big-tags">
+                        <span>C01</span>
+                        <span>C02</span>
+                        <span>C03</span>
+                        <span>C04</span>
+                        <span>C05</span>
+                        <span>C06</span>
+                        <span>C07</span>
+                        <span>C08</span>
+                        <span>C09</span>
+                        <span>C10</span>
+                        <span>C11</span>
+                        <span>C12</span>
+                        <span>C13</span>
+                    </div>
+
+                    <h2>Topics</h2>
+
+                    <div class="topic-list">
+                        <span>Characters</span>
+                        <span>Numbers</span>
+                        <span>Strings</span>
+                        <span>Pointers</span>
+                        <span>Arrays</span>
+                        <span>Functions</span>
+                        <span>Recursion</span>
+                        <span>argc / argv</span>
+                        <span>malloc</span>
+                        <span>Memory</span>
+                        <span>Structures</span>
+                        <span>Debugging</span>
+                        <span>Norminette</span>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SYSTEM MONITOR -->
+            <section id="monitorWindow" class="window content-window">
+
+                <div class="window-header">
+                    <span>📊 System Monitor</span>
+                    <button onclick="closeWindow('monitorWindow')">×</button>
+                </div>
+
+                <div class="content">
+
+                    <div class="monitor-stat">
+                        <div>
+                            <span>CPU</span>
+                            <strong id="cpuMonitor">28%</strong>
+                        </div>
+
+                        <div class="monitor-bar">
+                            <i id="cpuBar"></i>
+                        </div>
+                    </div>
+
+                    <div class="monitor-stat">
+                        <div>
+                            <span>Memory</span>
+                            <strong id="memoryMonitor">42%</strong>
+                        </div>
+
+                        <div class="monitor-bar">
+                            <i id="memoryBar"></i>
+                        </div>
+                    </div>
+
+                    <div class="process-list">
+
+                        <div>
+                            <span>kernel</span>
+                            <span>running</span>
+                        </div>
+
+                        <div>
+                            <span>terminal</span>
+                            <span>active</span>
+                        </div>
+
+                        <div>
+                            <span>file-manager</span>
+                            <span>active</span>
+                        </div>
+
+                        <div>
+                            <span>security-center</span>
+                            <span>protected</span>
+                        </div>
+
+                        <div>
+                            <span>desktop</span>
+                            <span>running</span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SETTINGS -->
+            <section id="settingsWindow" class="window content-window">
+
+                <div class="window-header">
+                    <span>⚙ Settings</span>
+                    <button onclick="closeWindow('settingsWindow')">×</button>
+                </div>
+
+                <div class="content">
+
+                    <h2>System Settings</h2>
+
+                    <label class="setting-row">
+                        <span>Notifications</span>
+                        <input type="checkbox" id="notificationsToggle" checked>
+                    </label>
+
+                    <label class="setting-row">
+                        <span>Matrix Mode</span>
+                        <input type="checkbox" id="matrixToggle">
+                    </label>
+
+                    <label class="setting-row">
+                        <span>Animations</span>
+                        <input type="checkbox" id="animationsToggle" checked>
+                    </label>
+
+                    <div class="settings-info">
+                        <p><b>OS:</b> SIBOOD OS Cyber Edition</p>
+                        <p><b>Version:</b> 3.0</p>
+                        <p><b>User:</b> SIBOOD</p>
+                        <p><b>Shell:</b> SIBOOD Terminal</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- RIGHT CLICK MENU -->
+            <div id="contextMenu" class="context-menu">
+
+                <div onclick="openWindow('terminalWindow')">
+                    ▣ Open Terminal
+                </div>
+
+                <div onclick="openWindow('filesWindow')">
+                    📁 Open Files
+                </div>
+
+                <div onclick="createFolder()">
+                    📁 New Folder
+                </div>
+
+                <div onclick="createFile()">
+                    📄 New File
+                </div>
+
+                <div onclick="refreshDesktop()">
+                    ↻ Refresh
+                </div>
+
+                <div onclick="openWindow('profileWindow')">
+                    👤 Profile
+                </div>
+
+                <div onclick="openWindow('settingsWindow')">
+                    ⚙ Settings
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- DOCK -->
+        <div class="dock">
+
+            <button onclick="openWindow('terminalWindow')">▣</button>
+            <button onclick="openWindow('filesWindow')">📁</button>
+            <button onclick="openWindow('profileWindow')">👤</button>
+            <button onclick="openWindow('projectsWindow')">🚀</button>
+            <button onclick="openWindow('cyberWindow')">🛡</button>
+            <button onclick="openWindow('settingsWindow')">⚙</button>
+
+        </div>
+
+        <!-- NOTIFICATION -->
+        <div id="notification" class="notification">
+            <strong id="notificationTitle"></strong>
+            <span id="notificationText"></span>
+        </div>
+
+        <!-- MATRIX -->
+        <canvas id="matrixCanvas"></canvas>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
